@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">点击创建</button>
+    <ul id="ul">
+        <li>1</li>
+    </ul>
+    <script>
+        let lis = document.getElementsByTagName('li') //动态获取
+        let lis = document.querySelectorAll('li') //静态获取
+        let sum = 1;
+        btn.onclick = function(){
+            ul.innerHTML += `<li>${++sum}</li>`
+            lis = document.querySelectorAll('li')
+            for(var i= 0;i<lis.length;i++){
+                lis[i].oclick = function(){
+                    alert(this.innerHTML)
+                }
+            }
+        }
+        ul.onclick = function(ev){
+            if(ev.target.tagName === 'LI'){
+                ev.target.style.background = 'red'
+            }
+            alert(1)
+        }
+    </script>
+</body>
+</html>

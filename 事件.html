@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <select name="" id="sele">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        
+    </select>
+     <input type="text" id="txt" maxlength="10">
+     <!-- maxlength最多多少个字符 -->
+    <span id="span">0</span>/10字
+    <input type="file" id="f">
+    <script>
+        sele.onchange = function(){ //onchange 输入框改变之后失焦触发（select改版value值也会触发）
+            console.log(1)
+        }
+        txt.onchange = function(){
+            console.log(2)
+        }
+        txt.oninput = function(){ //oninput 输入内容触发
+           span.innerText = this.value.length;
+        }
+        txt.onblur = function(){ //onblur 失焦表单元素触发
+            console.log(5)
+        }
+        txt.onfocus = function(){ //onfocus 聚焦表单元素触发
+            console.log(4)
+        }
+    </script>
+</body>
+</html>

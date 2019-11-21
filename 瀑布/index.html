@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../瀑布/css/index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+        <ul class="head">
+            <li><img src="./img/head1.png" alt=""></li>
+            <li><img src="./img/head2.jpg" alt=""></li>
+            <li><img src="./img/head3.jpg" alt=""></li>
+            <li><img src="./img/head4.jpg" alt=""></li>
+            <li><img src="./img/head5.jpg" alt=""></li>
+        </ul>
+        <ul class="body">
+            <li>
+                <!-- <div class="img_box">
+                    <img src="./img/1.jpg" alt="">
+                    <p class="desc">所谓伊人，在水一方！</p>
+                    <p class="author">泰勒·斯威夫特</p>
+                </div> -->
+            </li>
+            <li></li>   
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div id="loading"><img width="250" src="./img/timg.gif"></div>
+<!-- <script src="./js_plus/index.js"></script> -->
+<script>
+        class Tools {
+    getMinIndex(obj){ //obj是每个li
+        //如果是数组
+        console.log(Array.isArray(obj))
+        if(!Array.isArray(obj)){ //
+            obj = [...obj].map((item)=>{
+               return item.scrollHeight;
+            });
+        }
+        // console.log(obj);
+        let min = Math.min(...obj);
+        let index = obj.findIndex(item=>item===min);
+        return {
+            min,index
+        }
+    }
+
+    throttling(cb,time){
+        let prevtime = 0;
+        return function(...arg){
+            let nowTime = +new Date;
+            if(nowTime - prevtime > time){
+                cb.call(this,...arg);
+            }
+            prevtime = nowTime;
+        }
+    }
+    
+    debounce(cb,time){
+        let timer;
+        return function(...arg){
+            //当事件触发的时候就先关闭上次的timer
+            if(timer){
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => {
+                cb.call(this,...arg);
+            }, time);
+        }
+    }
+
+}
+
+class Waterfall extends Tools{
+    constructor(name) {
+        super();
+        this.box = document.querySelector(name);
+        this.list = this.box.children; //li
+        this.wh = window.innerHeight;//可视区的高度
+        this.bodyT = this.box.offsetTop;//ul的定位距离
+        this.loading = document.getElementById('loading');
+        this.onoff = true;
+        // console.log(this.list )
+        // console.log(this.getMinIndex(this.list))
+    }
+    api(url,cb){
+        let that = this;
+        fetch(url)
+        .then(d=>d.json())
+        .then((data)=>{
+            cb.call(that,data);
+        });
+    }
+    render(){
+        this.onLd();
+        this.changeLoading();
+        setTimeout(() => {
+            this.api('../瀑布/data.json',function(data){
+                this.offLd();
+                this.changeLoading();
+                data.forEach((d,i)=>{
+                    
+                    let {index} = this.getMinIndex(this.list);
+                    let div = this.create(d);
+                    this.list[index].append(div);
+                    setTimeout(() => {
+                        div.children[0].style.opacity = 1;
+                    },i*100);
+                });
+            });
+        }, 1000);
+        
+    }
+    create({pic,desc,author,height}){
+        let div = document.createElement('div');
+        div.className = 'img_box';
+        div.innerHTML = `
+            <img height="${height}" src="${pic}" alt="">
+            <p class="desc">${desc}</p>
+            <p class="author">${author}</p>
+        `;
+       return div;
+    }
+    scroll(){
+        let fn = () => {
+            let {index} = this.getMinIndex(this.list);
+            if((window.pageYOffset + this.wh) > (this.list[index].scrollHeight + this.bodyT)){
+                this.render();
+            }   
+        }
+
+        window.onscroll = this.debounce(fn,200);
+        window.onresize = ()=> {this.wh = window.innerHeight}
+    }
+    changeLoading(){
+        this.loading.style.display = this.onoff?'block':'none';
+    }
+    onLd(){
+        this.onoff = true;
+    }
+    offLd(){
+        this.onoff = false;
+    }
+}
+
+let w = new Waterfall('.body');
+w.render();
+w.scroll();
+
+   
+</script>
+</body>
+</html>

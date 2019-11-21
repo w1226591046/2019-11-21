@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 300px;
+            height: 300px;
+            background: red;
+        }
+        #box1{
+            width: 100px;
+            height: 100px;
+            background: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="box1"></div>
+    </div>
+
+    <script>
+        // box.onmousemove = function(){
+        //     console.log('大盒子移入')
+        // }
+        // box.onmouseout = function(){
+        //     console.log('大盒子移出')
+        // }
+        // box1.onmousemove = function(){
+        //     console.log('小盒子移入')
+        // }
+        // box1.onmouseout = function(){
+        //     console.log('小盒子移出')
+        // }
+        box.onmouseenter = function(){  //解决穿透问题
+            console.log('大盒子移入')
+        }
+        box.onmouseleave = function(){
+            console.log('大盒子移出')
+        }
+        box1.onmouseenter = function(ev){
+            console.log('小盒子移入')
+            // ev.cancelBubble  =true;
+        }
+        box1.onmouseleave = function(){
+            console.log('小盒子移出')
+        }
+    </script>
+</body>
+</html>

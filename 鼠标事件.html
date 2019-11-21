@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width: 200px;
+        height: 200px;
+        background: forestgreen;
+        position:absolute;
+        left: 0;
+        top:0;
+        /* transition: 1s; */
+        cursor: move;
+    }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button id="btn">按钮</button>
+    <script>
+        function cd(touming){
+            let timer;
+            btn.onmousedown = function(){
+            let time = +new Date; //获取当前的时间
+           timer = setInterval(()=>{
+                let now = new Date; // 获取现在的时间
+                if(now - time > 1000){ //现在的时间减去刚才的时间
+                    console.log('长按')
+                    touming() //调用函数
+                }
+            })
+        }
+        btn.onmouseup = function(){
+            clearInterval(timer); //清除
+        }
+        }
+let sum = 1;
+       cd(function(){
+        sum -= 0.01;
+            console.log(sum)
+           box.style.opacity = sum;
+        })
+           
+           box.onmousemove = function(ev){
+            this.style.left = ev.pageX - this.clientWidth/2 + 'px';
+             this.style.top = ev.pageY - this.clientHeight/2+ 'px';
+           }
+        
+          
+       
+       
+        
+    </script>
+</body>
+</html>

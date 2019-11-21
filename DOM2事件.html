@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div{
+            padding: 100px;
+        }
+        #box{
+            background: greenyellow;
+            
+        }
+        #box1{
+            background: red;
+        }
+        #box2{
+            background: royalblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="box1">
+            <div id="box2">
+                <button id="btn">按钮</button>
+            </div>
+        </div>
+    </div>
+    <script>
+       
+        btn.addEventListener('click',function(){
+            alert('我是btn捕获')
+        },true)
+        btn.addEventListener('click',function(){
+            alert('我是btn冒泡')
+        },false)
+       box.addEventListener('click',function(){
+            alert('我是box冒泡')
+        },false)
+        box.addEventListener('click',function(){
+            alert('我是box捕获')
+        },true)
+        box1.addEventListener('click',function(){
+            alert('我是box1冒泡')
+        },false)
+        box1.addEventListener('click',function(){
+            alert('我是box1捕获')
+        },true)
+        box2.addEventListener('click',function(){
+            alert('我是box2捕获')
+        },true)
+        box2.addEventListener('click',function(){
+            alert('我是box2冒泡')
+        },false)
+       
+       
+       
+    </script>
+</body>
+</html>
